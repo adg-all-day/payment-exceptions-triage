@@ -1,0 +1,524 @@
+<title>Training Examples, Verbatim</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{--ground:#FBFCFB;--surface:#fff;--sunk:#F1F5F2;--ink:#14201B;--body:#28352F;
+ --muted:#5E6E67;--faint:#8B9A93;--line:#DEE6E1;--rule:#C6D2CB;
+ --acc:#0E6B4F;--acc-soft:#E4F0EA;--blue:#1E4E8C;--blue-soft:#E7EEF7;
+ --amber:#8A6A12;--amber-soft:#F8F1DE;--red:#B3341F;--red-soft:#FBEAE6;}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --ground:#0E1412;--surface:#151C19;--sunk:#1A2320;--ink:#E8EEEA;--body:#C6D2CC;
+ --muted:#93A29B;--faint:#6C7B74;--line:#242E2A;--rule:#33403A;
+ --acc:#46C395;--acc-soft:#12291F;--blue:#7FB0EA;--blue-soft:#131E2C;
+ --amber:#D8B45E;--amber-soft:#291F13;--red:#F08A72;--red-soft:#2A1712;}}
+:root[data-theme="dark"]{
+ --ground:#0E1412;--surface:#151C19;--sunk:#1A2320;--ink:#E8EEEA;--body:#C6D2CC;
+ --muted:#93A29B;--faint:#6C7B74;--line:#242E2A;--rule:#33403A;
+ --acc:#46C395;--acc-soft:#12291F;--blue:#7FB0EA;--blue-soft:#131E2C;
+ --amber:#D8B45E;--amber-soft:#291F13;--red:#F08A72;--red-soft:#2A1712;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--body);
+ font-family:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+ font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1500px;margin:0 auto;padding:0 22px 90px}
+h1,h2{font-family:"Public Sans",sans-serif;color:var(--ink);margin:0;
+ letter-spacing:-.02em;text-wrap:balance}
+header{padding:60px 0 26px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;
+ font-weight:700;color:var(--acc);margin-bottom:14px}
+h1{font-size:clamp(30px,4.4vw,46px);line-height:1.05;font-weight:800}
+.lede{color:var(--muted);max-width:78ch;margin-top:14px;font-size:16.5px}
+.key{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:22px;font-size:13px}
+.key i{font-style:normal;display:inline-flex;align-items:center;gap:7px;color:var(--muted)}
+.sw{width:11px;height:11px;border-radius:3px;display:inline-block}
+section{margin-top:44px}
+.cap{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-bottom:9px}
+.num{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--faint);
+ font-weight:600}
+h2{font-size:19px;font-weight:700}
+.tag{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:600;
+ padding:3px 9px;border-radius:99px;background:var(--acc-soft);color:var(--acc)}
+.tag.amb{background:var(--amber-soft);color:var(--amber)}
+.why{color:var(--muted);font-size:14.5px;max-width:96ch;margin:0 0 13px}
+table{width:100%;border-collapse:separate;border-spacing:0;
+ background:var(--surface);border:1px solid var(--line);border-radius:11px;
+ overflow:hidden;table-layout:fixed}
+th{text-align:left;font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+ padding:11px 15px;color:#fff;font-weight:700}
+th.p{background:var(--acc)} th.r{background:var(--blue)}
+td{vertical-align:top;padding:0;border-top:1px solid var(--line);width:50%}
+td:first-child{border-right:1px solid var(--line)}
+pre{margin:0;padding:15px 17px;font-family:"JetBrains Mono",ui-monospace,Menlo,
+ monospace;font-size:11.5px;line-height:1.5;white-space:pre-wrap;
+ word-break:break-word;overflow-x:auto;max-height:460px;overflow-y:auto;
+ color:var(--body)}
+pre.instr{background:var(--sunk);color:var(--muted);max-height:none;
+ border-bottom:1px dashed var(--rule);font-size:11px}
+b.ev{color:var(--acc);font-weight:600}
+b.ag{color:var(--amber);font-weight:600}
+b.an{color:var(--blue);font-weight:600}
+.foot{margin-top:56px;padding-top:22px;border-top:2px solid var(--ink);
+ color:var(--faint);font-size:13.5px}
+@media(max-width:900px){table,thead,tbody,tr,td,th{display:block;width:100%}
+ td:first-child{border-right:0}}
+</style>
+<div class="wrap">
+<header><div class="eyebrow">Payments exceptions model &middot; training set</div>
+<h1>What the model is actually shown</h1>
+<p class="lede">Seven examples straight out of <code>data/train.jsonl</code>, unedited. Left is the prompt, right is the answer it must learn to produce. Loss is computed on the right-hand side only &mdash; learning to echo the case back would waste the gradient on text we already have.</p>
+<div class="key"><i><span class="sw" style="background:var(--acc)"></span>evidence the answer must rest on</i><i><span class="sw" style="background:var(--amber)"></span>written by an agent, not by code</i><i><span class="sw" style="background:var(--blue)"></span>the decision being learned</i></div></header>
+<section><div class="cap"><span class="num">01</span><h2>No Break</h2><span class="tag">EXC-2026-0000347</span></div><p class="why">Looks like money went missing. It is the transfer charge plus VAT. A rules engine comparing two numbers calls this a break.</p><table><thead><tr><th class="p">Prompt &mdash; what it is shown</th><th class="r">Response &mdash; what it must output</th></tr></thead><tbody><tr><td><pre class="instr">You are a payments exceptions analyst at a Nigerian bank. Read the case and reply with JSON only, using exactly these keys: break_type, money_trace, action, confidence, needs_human, analyst_note.
+break_type must be one of: SWITCH_TIMEOUT_NO_REVERSAL, DUPLICATE_POSTING, REVERSAL_NOT_APPLIED, WRONG_BENEFICIARY, PARTIAL_SETTLEMENT, SUSPECTED_FRAUD, NO_BREAK.
+action must be one of: AUTO_REVERSE, MANUAL_CREDIT, RECOVER_FROM_BENEFICIARY, NO_ACTION_SETTLED, ESCALATE_FRAUD, ESCALATE_MANUAL.
+confidence is a number between 0 and 1. needs_human is true or false.</pre><pre>{
+ &quot;amount_ngn&quot;: 9000.0,
+ &quot;beneficiary&quot;: {
+  &quot;account&quot;: &quot;1453209390&quot;,
+  &quot;bank&quot;: &quot;Zenith Bank&quot;,
+  &quot;bank_code&quot;: &quot;057&quot;,
+  &quot;name_on_instruction&quot;: &quot;Obinna Nnamdi&quot;
+ },
+ &quot;channel&quot;: &quot;USSD&quot;,
+ &quot;customer&quot;: {
+  &quot;account&quot;: &quot;2726141680&quot;,
+  &quot;name&quot;: &quot;Abubakar Abubakar&quot;
+ },
+ &quot;customer_complaint&quot;: &quot;My account has been debited but the transaction did not complete. Please treat as urgent, this is business money.&quot;,
+ &quot;exception_id&quot;: &quot;EXC-2026-0000347&quot;,
+ &quot;ledger&quot;: [
+  {
+   &quot;account&quot;: &quot;2726141680&quot;,
+   &quot;amount_ngn&quot;: 9000.0,
+   &quot;dr_cr&quot;: &quot;DR&quot;,
+   &quot;entry_id&quot;: &quot;L1&quot;,
+   &quot;narration&quot;: &quot;NIP/REF971174355105/ABUBAKAR ABUBAKAR/TO OBINNA NNAMDI&quot;,
+   &quot;timestamp&quot;: &quot;2026-07-26T06:56:00&quot;
+  },
+  {
+   &quot;account&quot;: &quot;2726141680&quot;,
+   &quot;amount_ngn&quot;: 26.88,
+   &quot;dr_cr&quot;: &quot;DR&quot;,
+   &quot;entry_id&quot;: &quot;L2&quot;,
+   &quot;narration&quot;: &quot;NIP CHG 25.00 + VAT 1.88&quot;,
+   &quot;timestamp&quot;: &quot;2026-07-26T06:56:30&quot;
+  }
+ ],
+ &quot;logged_at&quot;: &quot;2026-07-26T08:09:00&quot;,
+ &quot;onward_transfers&quot;: [],
+ &quot;remarks&quot;: [
+  &quot;26/07 12:56 BRANCH: pulled statement for last 9 days and shared via email. cust to review.&quot;,
+  &quot;26/07 20:56 BRANCH: cust says he will check with his vendor and revert.&quot;,
+  &quot;27/07 20:56 BRANCH: advised cust 2 working days turnaround for interbank recall.&quot;
+ ],
+ &quot;session_id&quot;: &quot;0000260726065600820384604413&quot;,
+ &quot;settlement_file_line&quot;: &quot;2026-07-26|REF971174355105|8973.12|SETTLED&quot;,
+ &quot;switch&quot;: {
+  &quot;at&quot;: &quot;2026-07-26T06:56:32&quot;,
+  &quot;code&quot;: &quot;00&quot;,
+  &quot;message&quot;: &quot;Approved or completed successfully&quot;
+ },
+ &quot;transaction_ref&quot;: &quot;REF971174355105&quot;,
+ &quot;value_date&quot;: &quot;2026-07-26&quot;
+}</pre></td><td><pre>{
+ &quot;break_type&quot;: &quot;NO_BREAK&quot;,
+ &quot;money_trace&quot;: &quot;The beneficiary received slightly less than 9,000.00, and the difference works out to exactly 25.00 in transfer charges plus 1.88 VAT on that charge. That is the standard deduction taken at source, not a partial payment. The instruction settled in full.&quot;,
+ &quot;action&quot;: &quot;NO_ACTION_SETTLED&quot;,
+ &quot;confidence&quot;: 0.98,
+ &quot;needs_human&quot;: false,
+ &quot;analyst_note&quot;: &quot;Shortfall fully accounted for by commission and tax lines. Closed.&quot;
+}</pre></td></tr></tbody></table></section>
+<section><div class="cap"><span class="num">02</span><h2>No Break</h2><span class="tag">EXC-2026-0000911</span></div><p class="why">Two different spellings of the same person. String comparison says mismatch; a reader says same person.</p><table><thead><tr><th class="p">Prompt &mdash; what it is shown</th><th class="r">Response &mdash; what it must output</th></tr></thead><tbody><tr><td><pre class="instr">You are a payments exceptions analyst at a Nigerian bank. Read the case and reply with JSON only, using exactly these keys: break_type, money_trace, action, confidence, needs_human, analyst_note.
+break_type must be one of: SWITCH_TIMEOUT_NO_REVERSAL, DUPLICATE_POSTING, REVERSAL_NOT_APPLIED, WRONG_BENEFICIARY, PARTIAL_SETTLEMENT, SUSPECTED_FRAUD, NO_BREAK.
+action must be one of: AUTO_REVERSE, MANUAL_CREDIT, RECOVER_FROM_BENEFICIARY, NO_ACTION_SETTLED, ESCALATE_FRAUD, ESCALATE_MANUAL.
+confidence is a number between 0 and 1. needs_human is true or false.</pre><pre>{
+ &quot;amount_ngn&quot;: 322000.0,
+ &quot;beneficiary&quot;: {
+  &quot;account&quot;: &quot;0226547360&quot;,
+  &quot;bank&quot;: &quot;Moniepoint MFB&quot;,
+  &quot;bank_code&quot;: &quot;50515&quot;,
+  &quot;name_on_instruction&quot;: &quot;Abubakar Oluwole&quot;
+ },
+ &quot;channel&quot;: &quot;NIP&quot;,
+ &quot;customer&quot;: {
+  &quot;account&quot;: &quot;4764498065&quot;,
+  &quot;name&quot;: &quot;Amaka Nwosu&quot;
+ },
+ &quot;customer_complaint&quot;: &quot;My money never entered the receiver&#x27;s account and it never came back to me either. Two weeks now.&quot;,
+ &quot;exception_id&quot;: &quot;EXC-2026-0000911&quot;,
+ &quot;ledger&quot;: [
+  {
+   &quot;account&quot;: &quot;4764498065&quot;,
+   &quot;amount_ngn&quot;: 322000.0,
+   &quot;dr_cr&quot;: &quot;DR&quot;,
+   &quot;entry_id&quot;: &quot;L1&quot;,
+   &quot;narration&quot;: &quot;USSD*737*0226 TRF REF215642489346&quot;,
+   &quot;timestamp&quot;: &quot;2026-07-28T08:04:00&quot;
+  },
+  {
+   &quot;account&quot;: &quot;0226547360&quot;,
+   &quot;amount_ngn&quot;: 322000.0,
+   &quot;dr_cr&quot;: &quot;CR&quot;,
+   &quot;entry_id&quot;: &quot;L2&quot;,
+   &quot;narration&quot;: &quot;NIP INWARD REF215642489346&quot;,
+   &quot;timestamp&quot;: &quot;2026-07-28T08:04:36&quot;
+  }
+ ],
+ &quot;logged_at&quot;: &quot;2026-07-28T15:35:00&quot;,
+ &quot;name_enquiry&quot;: {
+  &quot;account_queried&quot;: &quot;0226547360&quot;,
+  &quot;name_on_instruction&quot;: &quot;Abubakar Oluwole&quot;,
+  &quot;name_returned&quot;: &quot;Abubakar  Oluwole&quot;
+ },
+ &quot;onward_transfers&quot;: [],
+ &quot;remarks&quot;: [
+  &quot;29/07 01:04 RECON: pulled statement for last 4 days and shared via email. cust to review.&quot;,
+  &quot;30/07 07:04 RECON: escalated to ops for confirmation. awaiting response.&quot;
+ ],
+ &quot;session_id&quot;: &quot;0000280726080400433726271212&quot;,
+ &quot;settlement_file_line&quot;: &quot;2026-07-28|REF215642489346|322000.00|SETTLED&quot;,
+ &quot;switch&quot;: {
+  &quot;at&quot;: &quot;2026-07-28T08:04:06&quot;,
+  &quot;code&quot;: &quot;00&quot;,
+  &quot;message&quot;: &quot;Approved or completed successfully&quot;
+ },
+ &quot;transaction_ref&quot;: &quot;REF215642489346&quot;,
+ &quot;value_date&quot;: &quot;2026-07-28&quot;
+}</pre></td><td><pre>{
+ &quot;break_type&quot;: &quot;NO_BREAK&quot;,
+ &quot;money_trace&quot;: &quot;Name enquiry response reads slightly differently from what the customer typed, mainly a dropped middle name and a common variant spelling of the surname. The account at Moniepoint MFB and the 322,000.00 under REF215642489346 are otherwise identical. Correct beneficiary.&quot;,
+ &quot;action&quot;: &quot;NO_ACTION_SETTLED&quot;,
+ &quot;confidence&quot;: 0.9,
+ &quot;needs_human&quot;: false,
+ &quot;analyst_note&quot;: &quot;Spelling variant on the same payee. 322,000.00 correctly credited; closed.&quot;
+}</pre></td></tr></tbody></table></section>
+<section><div class="cap"><span class="num">03</span><h2>No Break</h2><span class="tag">EXC-2026-0000358</span></div><p class="why">Two debits, same amount, same day - but two genuine transfers, not a duplicate. Different references.</p><table><thead><tr><th class="p">Prompt &mdash; what it is shown</th><th class="r">Response &mdash; what it must output</th></tr></thead><tbody><tr><td><pre class="instr">You are a payments exceptions analyst at a Nigerian bank. Read the case and reply with JSON only, using exactly these keys: break_type, money_trace, action, confidence, needs_human, analyst_note.
+break_type must be one of: SWITCH_TIMEOUT_NO_REVERSAL, DUPLICATE_POSTING, REVERSAL_NOT_APPLIED, WRONG_BENEFICIARY, PARTIAL_SETTLEMENT, SUSPECTED_FRAUD, NO_BREAK.
+action must be one of: AUTO_REVERSE, MANUAL_CREDIT, RECOVER_FROM_BENEFICIARY, NO_ACTION_SETTLED, ESCALATE_FRAUD, ESCALATE_MANUAL.
+confidence is a number between 0 and 1. needs_human is true or false.</pre><pre>{
+ &quot;amount_ngn&quot;: 171000.0,
+ &quot;beneficiary&quot;: {
+  &quot;account&quot;: &quot;2164312539&quot;,
+  &quot;bank&quot;: &quot;OPay&quot;,
+  &quot;bank_code&quot;: &quot;100004&quot;,
+  &quot;name_on_instruction&quot;: &quot;Chioma Sanusi&quot;
+ },
+ &quot;channel&quot;: &quot;NIP&quot;,
+ &quot;customer&quot;: {
+  &quot;account&quot;: &quot;8639553615&quot;,
+  &quot;name&quot;: &quot;Ijeoma Adesanya&quot;
+ },
+ &quot;customer_complaint&quot;: &quot;i want refund. transfer done once, debit done more than once, beneficiary bank confirm only one credit. pls treat urgently&quot;,
+ &quot;exception_id&quot;: &quot;EXC-2026-0000358&quot;,
+ &quot;ledger&quot;: [
+  {
+   &quot;account&quot;: &quot;8639553615&quot;,
+   &quot;amount_ngn&quot;: 171000.0,
+   &quot;dr_cr&quot;: &quot;DR&quot;,
+   &quot;entry_id&quot;: &quot;L1&quot;,
+   &quot;narration&quot;: &quot;CHIOMA SANUSI/REF520943150499&quot;,
+   &quot;timestamp&quot;: &quot;2026-07-27T12:40:00&quot;
+  },
+  {
+   &quot;account&quot;: &quot;8639553615&quot;,
+   &quot;amount_ngn&quot;: 171000.0,
+   &quot;dr_cr&quot;: &quot;DR&quot;,
+   &quot;entry_id&quot;: &quot;L3&quot;,
+   &quot;narration&quot;: &quot;TRF FRM IJEOMA ADESANYA TO YUSUF ADEYEMI REF352523823589&quot;,
+   &quot;timestamp&quot;: &quot;2026-07-27T16:02:00&quot;
+  }
+ ],
+ &quot;logged_at&quot;: &quot;2026-07-27T23:10:00&quot;,
+ &quot;onward_transfers&quot;: [],
+ &quot;remarks&quot;: [
+  &quot;28/07 15:40 BRANCH: nothing outstanding. txn complete end to end.&quot;,
+  &quot;29/07 12:40 RECON: advised cust delay was on beneficiary bank posting cycle, funds now visible.&quot;,
+  &quot;30/07 04:40 RECON: cust called again&quot;,
+  &quot;31/07 07:40 CS: no update from OPay. following up again.&quot;
+ ],
+ &quot;session_id&quot;: &quot;0000270726124000730596577538&quot;,
+ &quot;settlement_file_line&quot;: &quot;2026-07-27|REF520943150499|171000.00|SETTLED\n2026-07-27|REF352523823589|171000.00|SETTLED&quot;,
+ &quot;switch&quot;: {
+  &quot;at&quot;: &quot;2026-07-27T12:40:03&quot;,
+  &quot;code&quot;: &quot;00&quot;,
+  &quot;message&quot;: &quot;Approved or completed successfully&quot;
+ },
+ &quot;transaction_ref&quot;: &quot;REF520943150499&quot;,
+ &quot;value_date&quot;: &quot;2026-07-27&quot;
+}</pre></td><td><pre>{
+ &quot;break_type&quot;: &quot;NO_BREAK&quot;,
+ &quot;money_trace&quot;: &quot;Same amount, same beneficiary, same day \u2014 but the audit trail shows two distinct initiations by two different users on the corporate profile. Neither was a system retry, and OPay applied both credits. The customer owes both debits.&quot;,
+ &quot;action&quot;: &quot;NO_ACTION_SETTLED&quot;,
+ &quot;confidence&quot;: 0.97,
+ &quot;needs_human&quot;: false,
+ &quot;analyst_note&quot;: &quot;Two distinct references and authorisations. Both debits valid; closed.&quot;
+}</pre></td></tr></tbody></table></section>
+<section><div class="cap"><span class="num">04</span><h2>Suspected Fraud</h2><span class="tag">EXC-2026-0003049</span></div><p class="why">Fraud with the fan-out listed as structured data. The easy case.</p><table><thead><tr><th class="p">Prompt &mdash; what it is shown</th><th class="r">Response &mdash; what it must output</th></tr></thead><tbody><tr><td><pre class="instr">You are a payments exceptions analyst at a Nigerian bank. Read the case and reply with JSON only, using exactly these keys: break_type, money_trace, action, confidence, needs_human, analyst_note.
+break_type must be one of: SWITCH_TIMEOUT_NO_REVERSAL, DUPLICATE_POSTING, REVERSAL_NOT_APPLIED, WRONG_BENEFICIARY, PARTIAL_SETTLEMENT, SUSPECTED_FRAUD, NO_BREAK.
+action must be one of: AUTO_REVERSE, MANUAL_CREDIT, RECOVER_FROM_BENEFICIARY, NO_ACTION_SETTLED, ESCALATE_FRAUD, ESCALATE_MANUAL.
+confidence is a number between 0 and 1. needs_human is true or false.</pre><pre>{
+ &quot;amount_ngn&quot;: 316000.0,
+ &quot;beneficiary&quot;: {
+  &quot;account&quot;: &quot;8157995241&quot;,
+  &quot;bank&quot;: &quot;Zenith Bank&quot;,
+  &quot;bank_code&quot;: &quot;057&quot;,
+  &quot;name_on_instruction&quot;: &quot;Kemi Adebisi&quot;
+ },
+ &quot;channel&quot;: &quot;POS&quot;,
+ &quot;customer&quot;: {
+  &quot;account&quot;: &quot;8321038620&quot;,
+  &quot;name&quot;: &quot;Hauwa Oyelaran&quot;
+ },
+ &quot;customer_complaint&quot;: &quot;Please I need my money back today. I am tired of explaining this same thing to different agents.&quot;,
+ &quot;exception_id&quot;: &quot;EXC-2026-0003049&quot;,
+ &quot;ledger&quot;: [
+  {
+   &quot;account&quot;: &quot;8321038620&quot;,
+   &quot;amount_ngn&quot;: 316000.0,
+   &quot;dr_cr&quot;: &quot;DR&quot;,
+   &quot;entry_id&quot;: &quot;L1&quot;,
+   &quot;narration&quot;: &quot;TRF FRM HAUWA OYELARAN TO KEMI ADEBISI REF188266892918&quot;,
+   &quot;timestamp&quot;: &quot;2026-08-01T13:47:00&quot;
+  },
+  {
+   &quot;account&quot;: &quot;8157995241&quot;,
+   &quot;amount_ngn&quot;: 316000.0,
+   &quot;dr_cr&quot;: &quot;CR&quot;,
+   &quot;entry_id&quot;: &quot;L2&quot;,
+   &quot;narration&quot;: &quot;NIP INWARD REF188266892918&quot;,
+   &quot;timestamp&quot;: &quot;2026-08-01T13:47:08&quot;
+  }
+ ],
+ &quot;logged_at&quot;: &quot;2026-08-01T20:14:00&quot;,
+ &quot;onward_transfers&quot;: [
+  {
+   &quot;amount_ngn&quot;: 50975.83,
+   &quot;at&quot;: &quot;2026-08-01T14:11:00&quot;,
+   &quot;beneficiary_age_days&quot;: 0,
+   &quot;from_account&quot;: &quot;8157995241&quot;,
+   &quot;to_account&quot;: &quot;6702816534&quot;,
+   &quot;to_bank&quot;: &quot;OPay&quot;
+  },
+  {
+   &quot;amount_ngn&quot;: 55176.63,
+   &quot;at&quot;: &quot;2026-08-01T13:51:00&quot;,
+   &quot;beneficiary_age_days&quot;: 4,
+   &quot;from_account&quot;: &quot;8157995241&quot;,
+   &quot;to_account&quot;: &quot;1081260217&quot;,
+   &quot;to_bank&quot;: &quot;Zenith Bank&quot;
+  },
+  {
+   &quot;amount_ngn&quot;: 54483.89,
+   &quot;at&quot;: &quot;2026-08-01T13:56:00&quot;,
+   &quot;beneficiary_age_days&quot;: 2,
+   &quot;from_account&quot;: &quot;8157995241&quot;,
+   &quot;to_account&quot;: &quot;8057812080&quot;,
+   &quot;to_bank&quot;: &quot;OPay&quot;
+  },
+  {
+   &quot;amount_ngn&quot;: 58258.02,
+   &quot;at&quot;: &quot;2026-08-01T14:11:00&quot;,
+   &quot;beneficiary_age_days&quot;: 1,
+   &quot;from_account&quot;: &quot;8157995241&quot;,
+   &quot;to_account&quot;: &quot;2676288059&quot;,
+   &quot;to_bank&quot;: &quot;First Bank&quot;
+  },
+  {
+   &quot;amount_ngn&quot;: 63840.8,
+   &quot;at&quot;: &quot;2026-08-01T14:05:00&quot;,
+   &quot;beneficiary_age_days&quot;: 5,
+   &quot;from_account&quot;: &quot;8157995241&quot;,
+   &quot;to_account&quot;: &quot;0337879770&quot;,
+   &quot;to_bank&quot;: &quot;Moniepoint MFB&quot;
+  }
+ ],
+ &quot;remarks&quot;: [
+  &quot;01/08 15:47 CS: line dropped mid call. will call back.&quot;,
+  &quot;02/08 12:47 BRANCH: cust wants branch visit. gave branch addr n directions&quot;,
+  &quot;02/08 14:47 CS: case reassigned to me, reading through notes&quot;
+ ],
+ &quot;session_id&quot;: &quot;0000010826134700893020092896&quot;,
+ &quot;settlement_file_line&quot;: &quot;2026-08-01|REF188266892918|316000.00|SETTLED&quot;,
+ &quot;switch&quot;: {
+  &quot;at&quot;: &quot;2026-08-01T13:47:31&quot;,
+  &quot;code&quot;: &quot;00&quot;,
+  &quot;message&quot;: &quot;Approved or completed successfully&quot;
+ },
+ &quot;transaction_ref&quot;: &quot;REF188266892918&quot;,
+ &quot;value_date&quot;: &quot;2026-08-01&quot;
+}</pre></td><td><pre>{
+ &quot;break_type&quot;: &quot;SUSPECTED_FRAUD&quot;,
+ &quot;money_trace&quot;: &quot;Given that the receiving accounts were 2 days old and had passed no meaningful checks beyond opening, they were plainly available for this purpose from the start. The credit of 316,000.00 was distributed across them within the hour. That sequencing supports a conclusion of coordinated misuse, so the residual balance is frozen and the file referred.&quot;,
+ &quot;action&quot;: &quot;ESCALATE_FRAUD&quot;,
+ &quot;confidence&quot;: 0.93,
+ &quot;needs_human&quot;: true,
+ &quot;analyst_note&quot;: &quot;Account restrained pending fraud review. Not resolved at operations level.&quot;
+}</pre></td></tr></tbody></table></section>
+<section><div class="cap"><span class="num">05</span><h2>Suspected Fraud</h2><span class="tag">EXC-2026-0001953</span></div><p class="why">Same fraud, but the fan-out is described in the remarks log in ordinary English. This is the one regexes lose.</p><table><thead><tr><th class="p">Prompt &mdash; what it is shown</th><th class="r">Response &mdash; what it must output</th></tr></thead><tbody><tr><td><pre class="instr">You are a payments exceptions analyst at a Nigerian bank. Read the case and reply with JSON only, using exactly these keys: break_type, money_trace, action, confidence, needs_human, analyst_note.
+break_type must be one of: SWITCH_TIMEOUT_NO_REVERSAL, DUPLICATE_POSTING, REVERSAL_NOT_APPLIED, WRONG_BENEFICIARY, PARTIAL_SETTLEMENT, SUSPECTED_FRAUD, NO_BREAK.
+action must be one of: AUTO_REVERSE, MANUAL_CREDIT, RECOVER_FROM_BENEFICIARY, NO_ACTION_SETTLED, ESCALATE_FRAUD, ESCALATE_MANUAL.
+confidence is a number between 0 and 1. needs_human is true or false.</pre><pre>{
+ &quot;amount_ngn&quot;: 159000.0,
+ &quot;beneficiary&quot;: {
+  &quot;account&quot;: &quot;8197188258&quot;,
+  &quot;bank&quot;: &quot;Zenith Bank&quot;,
+  &quot;bank_code&quot;: &quot;057&quot;,
+  &quot;name_on_instruction&quot;: &quot;Oluwaseun Ogundele&quot;
+ },
+ &quot;channel&quot;: &quot;NIP&quot;,
+ &quot;customer&quot;: {
+  &quot;account&quot;: &quot;5429257005&quot;,
+  &quot;name&quot;: &quot;Hauwa Nnamdi&quot;
+ },
+ &quot;customer_complaint&quot;: &quot;There are debits on my statement that I cannot account for. Please send me the details of the receiving accounts.&quot;,
+ &quot;exception_id&quot;: &quot;EXC-2026-0001953&quot;,
+ &quot;ledger&quot;: [
+  {
+   &quot;account&quot;: &quot;5429257005&quot;,
+   &quot;amount_ngn&quot;: 159000.0,
+   &quot;dr_cr&quot;: &quot;DR&quot;,
+   &quot;entry_id&quot;: &quot;L1&quot;,
+   &quot;narration&quot;: &quot;TRF FRM HAUWA NNAMDI TO OLUWASEUN OGUNDELE REF782198541275&quot;,
+   &quot;timestamp&quot;: &quot;2026-07-15T21:24:00&quot;
+  },
+  {
+   &quot;account&quot;: &quot;8197188258&quot;,
+   &quot;amount_ngn&quot;: 159000.0,
+   &quot;dr_cr&quot;: &quot;CR&quot;,
+   &quot;entry_id&quot;: &quot;L2&quot;,
+   &quot;narration&quot;: &quot;NIP INWARD REF782198541275&quot;,
+   &quot;timestamp&quot;: &quot;2026-07-15T21:24:20&quot;
+  }
+ ],
+ &quot;logged_at&quot;: &quot;2026-07-15T22:03:00&quot;,
+ &quot;onward_transfers&quot;: [],
+ &quot;remarks&quot;: [
+  &quot;16/07 09:24 OPS: traced REF782198541275 to Zenith Bank; credit split to 6 accts within 5 minutes mins&quot;,
+  &quot;16/07 18:24 CS: acct age 3 days on all the receiving accts&quot;,
+  &quot;16/07 23:24 RECON: no response from Zenith Bank recall desk yet, 2nd mail sent&quot;
+ ],
+ &quot;session_id&quot;: &quot;0000150726212400516166009931&quot;,
+ &quot;settlement_file_line&quot;: &quot;2026-07-15|REF782198541275|159000.00|SETTLED&quot;,
+ &quot;switch&quot;: {
+  &quot;at&quot;: &quot;2026-07-15T21:24:04&quot;,
+  &quot;code&quot;: &quot;00&quot;,
+  &quot;message&quot;: &quot;Approved or completed successfully&quot;
+ },
+ &quot;transaction_ref&quot;: &quot;REF782198541275&quot;,
+ &quot;value_date&quot;: &quot;2026-07-15&quot;
+}</pre></td><td><pre>{
+ &quot;break_type&quot;: &quot;WRONG_BENEFICIARY&quot;,
+ &quot;money_trace&quot;: &quot;Funds under REF782198541275 settled cleanly into the beneficiary account and were then broken into 4 onward transfers within 90 minutes, none of them to counterparties the customer has ever paid before. Each receiving account at Zenith Bank was opened inside the last 5 days and drained to near zero the same evening. Money that arrives correctly and then disperses that fast in that pattern is being laid off, not spent, so the account must be held and the matter passed to the fraud investigators rather than written off.&quot;,
+ &quot;action&quot;: &quot;RECOVER_FROM_BENEFICIARY&quot;,
+ &quot;confidence&quot;: 0.95,
+ &quot;needs_human&quot;: true,
+ &quot;analyst_note&quot;: &quot;Onward layering across 3 accounts confirmed. Freeze in place, investigation team engaged.&quot;
+}</pre></td></tr></tbody></table></section>
+<section><div class="cap"><span class="num">06</span><h2>Reversal Not Applied</h2><span class="tag">EXC-2026-0004328</span></div><p class="why">The refund reference is buried in the remarks. Untrained Gemma scored 6.4% on this class; fine-tuned scored 73-80%.</p><table><thead><tr><th class="p">Prompt &mdash; what it is shown</th><th class="r">Response &mdash; what it must output</th></tr></thead><tbody><tr><td><pre class="instr">You are a payments exceptions analyst at a Nigerian bank. Read the case and reply with JSON only, using exactly these keys: break_type, money_trace, action, confidence, needs_human, analyst_note.
+break_type must be one of: SWITCH_TIMEOUT_NO_REVERSAL, DUPLICATE_POSTING, REVERSAL_NOT_APPLIED, WRONG_BENEFICIARY, PARTIAL_SETTLEMENT, SUSPECTED_FRAUD, NO_BREAK.
+action must be one of: AUTO_REVERSE, MANUAL_CREDIT, RECOVER_FROM_BENEFICIARY, NO_ACTION_SETTLED, ESCALATE_FRAUD, ESCALATE_MANUAL.
+confidence is a number between 0 and 1. needs_human is true or false.</pre><pre>{
+ &quot;amount_ngn&quot;: 11000.0,
+ &quot;beneficiary&quot;: {
+  &quot;account&quot;: &quot;3660977912&quot;,
+  &quot;bank&quot;: &quot;Kuda MFB&quot;,
+  &quot;bank_code&quot;: &quot;50211&quot;,
+  &quot;name_on_instruction&quot;: &quot;Temitope Adebisi&quot;
+ },
+ &quot;channel&quot;: &quot;NIP&quot;,
+ &quot;customer&quot;: {
+  &quot;account&quot;: &quot;3746045394&quot;,
+  &quot;name&quot;: &quot;Chukwudi Eze&quot;
+ },
+ &quot;customer_complaint&quot;: &quot;My money never entered the receiver&#x27;s account and it never came back to me either. Two weeks now.&quot;,
+ &quot;exception_id&quot;: &quot;EXC-2026-0004328&quot;,
+ &quot;ledger&quot;: [
+  {
+   &quot;account&quot;: &quot;3746045394&quot;,
+   &quot;amount_ngn&quot;: 11000.0,
+   &quot;dr_cr&quot;: &quot;DR&quot;,
+   &quot;entry_id&quot;: &quot;L1&quot;,
+   &quot;narration&quot;: &quot;TRF FRM CHUKWUDI EZE TO TEMITOPE ADEBISI REF354167295903&quot;,
+   &quot;timestamp&quot;: &quot;2026-08-16T06:21:00&quot;
+  }
+ ],
+ &quot;logged_at&quot;: &quot;2026-08-16T08:43:00&quot;,
+ &quot;onward_transfers&quot;: [],
+ &quot;remarks&quot;: [
+  &quot;16/08 07:21 OPS: cust said she will come to branch tomorrow morning&quot;,
+  &quot;17/08 03:21 CS: adv cust 15 mins for callback, did not call back&quot;
+ ],
+ &quot;reversal&quot;: {
+  &quot;acknowledged&quot;: true,
+  &quot;raised_at&quot;: &quot;2026-08-16T17:21:00&quot;,
+  &quot;reference&quot;: &quot;RV2976960267&quot;
+ },
+ &quot;session_id&quot;: &quot;0000160826062100653221909757&quot;,
+ &quot;settlement_file_line&quot;: null,
+ &quot;switch&quot;: {
+  &quot;at&quot;: &quot;2026-08-16T06:21:36&quot;,
+  &quot;code&quot;: &quot;91&quot;,
+  &quot;message&quot;: &quot;Beneficiary bank not available&quot;
+ },
+ &quot;transaction_ref&quot;: &quot;REF354167295903&quot;,
+ &quot;value_date&quot;: &quot;2026-08-16&quot;
+}</pre></td><td><pre>{
+ &quot;break_type&quot;: &quot;REVERSAL_NOT_APPLIED&quot;,
+ &quot;money_trace&quot;: &quot;Statement review across 6 days returns the debit of 11,000.00 and no reversal credit of any size. The remarks field on the original item names REF354167295903 as the refund raised against it. An acknowledged refund with no posting means the value stopped inside the bank, and we release it by crediting the account directly.&quot;,
+ &quot;action&quot;: &quot;MANUAL_CREDIT&quot;,
+ &quot;confidence&quot;: 0.98,
+ &quot;needs_human&quot;: false,
+ &quot;analyst_note&quot;: &quot;Reviewed remarks and ledger; refund raised, no entry passed. Customer credited manually and item signed off.&quot;
+}</pre></td></tr></tbody></table></section>
+<section><div class="cap"><span class="num">07</span><h2>Switch Timeout No Reversal</h2><span class="tag">EXC-2026-0001168</span> <span class="tag amb">must defer</span></div><p class="why">Evidence deliberately removed. The only correct answer is to hand it to a human - and saying so confidently is the skill.</p><table><thead><tr><th class="p">Prompt &mdash; what it is shown</th><th class="r">Response &mdash; what it must output</th></tr></thead><tbody><tr><td><pre class="instr">You are a payments exceptions analyst at a Nigerian bank. Read the case and reply with JSON only, using exactly these keys: break_type, money_trace, action, confidence, needs_human, analyst_note.
+break_type must be one of: SWITCH_TIMEOUT_NO_REVERSAL, DUPLICATE_POSTING, REVERSAL_NOT_APPLIED, WRONG_BENEFICIARY, PARTIAL_SETTLEMENT, SUSPECTED_FRAUD, NO_BREAK.
+action must be one of: AUTO_REVERSE, MANUAL_CREDIT, RECOVER_FROM_BENEFICIARY, NO_ACTION_SETTLED, ESCALATE_FRAUD, ESCALATE_MANUAL.
+confidence is a number between 0 and 1. needs_human is true or false.</pre><pre>{
+ &quot;amount_ngn&quot;: 233000.0,
+ &quot;beneficiary&quot;: {
+  &quot;account&quot;: &quot;2141834674&quot;,
+  &quot;bank&quot;: &quot;Zenith Bank&quot;,
+  &quot;bank_code&quot;: &quot;057&quot;,
+  &quot;name_on_instruction&quot;: &quot;Ifeanyi Oyelaran&quot;
+ },
+ &quot;channel&quot;: &quot;NIP&quot;,
+ &quot;customer&quot;: {
+  &quot;account&quot;: &quot;4063574802&quot;,
+  &quot;name&quot;: &quot;Bolaji Nwosu&quot;
+ },
+ &quot;customer_complaint&quot;: &quot;I am not getting any alert of reversal and the receiver is not getting any credit. Please explain this to me.&quot;,
+ &quot;exception_id&quot;: &quot;EXC-2026-0001168&quot;,
+ &quot;ledger&quot;: [
+  {
+   &quot;account&quot;: &quot;4063574802&quot;,
+   &quot;amount_ngn&quot;: 233000.0,
+   &quot;dr_cr&quot;: &quot;DR&quot;,
+   &quot;entry_id&quot;: &quot;L1&quot;,
+   &quot;narration&quot;: &quot;NIP/REF761706451672/BOLAJI NWOSU/TO IFEANYI OYELARAN&quot;,
+   &quot;timestamp&quot;: &quot;2026-08-01T19:26:00&quot;
+  }
+ ],
+ &quot;logged_at&quot;: &quot;2026-08-02T05:49:00&quot;,
+ &quot;onward_transfers&quot;: [],
+ &quot;remarks&quot;: [
+  &quot;02/08 04:26 CS: file note: debit sat unsettled, refunded from internal account&quot;,
+  &quot;03/08 09:26 BRANCH: cust visited branch, same complaint logged there. dup of this ticket&quot;
+ ],
+ &quot;session_id&quot;: &quot;0000010826192600563292500096&quot;,
+ &quot;settlement_file_line&quot;: &quot;2026-08-01|REF761706451672|233000.00|REVERSED_BY_NIBSS&quot;,
+ &quot;switch&quot;: {
+  &quot;at&quot;: &quot;2026-08-01T19:26:02&quot;,
+  &quot;code&quot;: &quot;09&quot;,
+  &quot;message&quot;: &quot;Request in progress&quot;
+ },
+ &quot;transaction_ref&quot;: &quot;REF761706451672&quot;,
+ &quot;value_date&quot;: &quot;2026-08-01&quot;
+}</pre></td><td><pre>{
+ &quot;break_type&quot;: &quot;DUPLICATE_POSTING&quot;,
+ &quot;money_trace&quot;: &quot;Customer walked in saying Zenith Bank confirmed nothing landed, and the account statement backs that up: 233,000.00 out, nothing back. Pulling reference REF761706451672, the outward leg was never acknowledged by the switch and the automatic return did not run. Since we never funded anything downstream, the money is still ours to give back. However the switch never returned a final response. There is not enough here to decide, and guessing either way risks double-refunding or leaving the customer short.&quot;,
+ &quot;action&quot;: &quot;AUTO_REVERSE&quot;,
+ &quot;confidence&quot;: 0.59,
+ &quot;needs_human&quot;: true,
+ &quot;analyst_note&quot;: &quot;Insufficient evidence - the switch never returned a final response. Referred for manual investigation.&quot;
+}</pre></td></tr></tbody></table></section>
+<div class="foot"><p><b>All of it is invented.</b> No real bank, customer or transaction appears anywhere. The records are generated by code so the correct answer is certain; the human prose is written by language models so the evidence cannot simply be pattern-matched. Neither half works alone &mdash; templated prose let a plain rules engine score 96.6%, and deleting the prose left 47% of fraud cases unanswerable.</p><p>Set fingerprint <code>4ba6c7ab39dd</code> &middot; 4,000 training rows, 1,000 held back.</p></div></div>

@@ -1,0 +1,22 @@
+# Model weights and checkpoints - 1.4 GB, not what a reader needs
+artifacts/out/lora/
+
+# Local python environment
+.pyenv/
+__pycache__/
+*.pyc
+
+# Intermediate render output
+erdpng/
+flowpng/
+
+# Scratch
+.DS_Store
+
+# Infrastructure helper - carries the GCP project id and key path
+vm.sh
+
+# Presentation builders - pitch material, not the product
+build_summary.py
+build_flow.py
+check_sum.py
