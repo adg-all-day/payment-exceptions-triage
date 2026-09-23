@@ -34,8 +34,10 @@ rules engine's 84.7%. The ordering is *big generic AI < plain if-then rules <
 a small model taught on your own data.*
 
 **One class decides it.** `REVERSAL_NOT_APPLIED` — where a refund was raised and
-acknowledged but never actually paid, and the only proof is a sentence a tired
-analyst typed into a notes field:
+acknowledged, but the money never reached the customer. The case carries the
+reversal reference and `acknowledged: true`; what it does not carry is any credit
+leg on the account. The evidence is an *absence*, so a rule checking
+`acknowledged == true` closes it as settled:
 
 | System | score |
 |---|---|
@@ -44,8 +46,8 @@ analyst typed into a notes field:
 | rules engine | 46.4% |
 | **Gemma 4 E2B, fine-tuned** | **73.1%** |
 
-There is no database column for that sentence. You have to read it, and you have
-to have seen how *this* bank writes it.
+Noticing what is missing is the hard part, and it is why the gap between a rules
+engine and a trained model is widest here.
 
 ## The safety gate
 
@@ -86,8 +88,8 @@ could have called.
 
 Traps are planted deliberately: amounts that look short but are just the transfer
 fee, double charges that are two genuine payments, names that are one person
-spelled two ways. In one case in twelve the evidence is removed entirely, and the
-only correct answer is *escalate to a human*.
+spelled two ways. In about one case in ten (102 of 1,000 test cases) the evidence is
+removed entirely, and the only correct answer is *escalate to a human*.
 
 ## What went wrong, three times
 
