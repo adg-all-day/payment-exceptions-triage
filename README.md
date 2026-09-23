@@ -114,8 +114,17 @@ python3 gate.py out/preds_tuned.jsonl out/preds_tuned_gated.jsonl
 python3 final_table.py                # the scoreboard above
 ```
 
-Every prediction from every system is committed under `artifacts/out/`, so any
-number in this README can be recomputed without a GPU.
+Every prediction from every system is committed under `artifacts/out/`.
+
+**One caveat you should know before checking the numbers.** The dataset in
+`data/` was regenerated after the evaluation ran, to fix defects in how the
+written explanations were matched to each case. Regeneration produces different
+cases under different ids, so `data/` and `artifacts/out/preds_*.jsonl` no longer
+line up — only about 295 of 1,000 ids are common, and even those may differ in
+content. The scores in the table above are real and were computed against the
+dataset as it stood at evaluation time; they cannot be recomputed from this
+checkout without re-running the models against the current data. That re-run is
+the next thing on the list.
 
 | File | What it is |
 |---|---|
