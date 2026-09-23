@@ -161,3 +161,8 @@ number in this README can be recomputed without a GPU.
 ## Licence
 
 MIT.
+
+## Pitch deck
+
+[`docs/trace-pitch-deck.pdf`](docs/trace-pitch-deck.pdf) — the 10-slide version, with the
+industry figures sourced on each slide.

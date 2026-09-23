@@ -20,3 +20,8 @@ vm.sh
 build_summary.py
 build_flow.py
 check_sum.py
+build_pitch.py
+check_pitch.py
+make_illustrations.py
+render_svg.py
+ill/
